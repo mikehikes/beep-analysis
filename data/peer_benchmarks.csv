@@ -1,0 +1,19 @@
+system,mode,metric,value,value_low,value_high,period,source_url,note
+MARTA Rail,heavy rail,cost_per_trip,7.64,,,May 2026,https://itsmarta.com/bsc_cost_per_rail_Pass.aspx,Operating cost per unlinked passenger boarding
+MARTA Bus,bus,cost_per_trip,14.77,,,May 2026,https://itsmarta.com/bsc_cost_per_bus_Pass.aspx,Operating cost per unlinked passenger boarding
+MARTA Streetcar,streetcar,cost_per_trip,20.12,,,May 2026,https://itsmarta.com/bsc_cost_per_streetcar_Pass.aspx,Operating cost per unlinked passenger boarding
+MARTA Bus,bus,cost_per_trip,9.83,,,FY2025 YTD (Jul-Mar),https://itsmarta.com/bsc_cost_per_bus_Pass.aspx,Fiscal year to date average
+MARTA Streetcar,streetcar,cost_per_trip,41.35,,,FY2025 YTD (Jul-Mar),https://itsmarta.com/bsc_cost_per_streetcar_Pass.aspx,Fiscal year to date average
+Springfield MA paratransit,paratransit,cost_per_trip,27.44,,,NTD literature,https://www.itskrs.its.dot.gov/2019-sc00422,Demand-response comparator
+Boston paratransit,paratransit,cost_per_trip,46.62,,,NTD literature,https://www.itskrs.its.dot.gov/2019-sc00422,Demand-response comparator
+Utah AV shuttle pilot,AV shuttle,cost_per_trip,2.31,,,2019 pilot,https://www.itskrs.its.dot.gov/2019-sc00422,Excludes capital and startup; assumes no onboard host
+Atlanta Streetcar,streetcar,cost_per_revenue_hour,485.53,,,NTD 2018,https://www.transit.dot.gov/sites/fta.dot.gov/files/transit_agency_profile_doc/2018/40230.pdf,Operating expense per vehicle revenue hour
+Atlanta Streetcar,streetcar,cost_per_revenue_hour,258.21,,,NTD 2015,https://www.transit.dot.gov/sites/fta.dot.gov/files/transit_agency_profile_doc/2015/40230.pdf,Operating expense per vehicle revenue hour
+MARTA REACH,AV microtransit,cost_per_revenue_hour,60.00,50.0,70.0,2023 pilot,https://arxiv.org/pdf/2308.02681,Expected cost per vehicle hour for pilot shuttles
+Utah AV shuttle pilot,AV shuttle,cost_per_revenue_hour,22.61,,,2019 pilot,https://www.itskrs.its.dot.gov/2019-sc00422,Excludes capital and startup; assumes no onboard host
+Cumberland Hopper (Beep),AV shuttle,cost_per_trip,48.18,36.36,53.00,Jul 2023 - Dec 2024,https://www.govtech.com/fs/autonomous-shuttle-set-to-serve-cumberland-ga,"Same operator as ATL Spoke. $400K phase 1 + ~$130K phase 2 = $530K over 11000+ riders. Low end assumes 11000 riders vs $400K phase 1 only"
+CobbLinc Go microtransit,microtransit,cost_per_passenger_mile,11.13,,,2024,https://www.mdjonline.com/news/frontpage/cobbs-on-demand-transit-is-popular-but-expensive-to-operate/article_0c956001-8353-4041-bef6-d5c421145b69.html,On-demand transit operating cost per passenger mile
+CobbLinc fixed route,bus,cost_per_passenger_mile,5.66,,,2024,https://www.mdjonline.com/news/frontpage/cobbs-on-demand-transit-is-popular-but-expensive-to-operate/article_0c956001-8353-4041-bef6-d5c421145b69.html,Fixed-route bus operating cost per passenger mile
+Uber (Atlanta),rideshare,fare_2mi_equivalent,9.03,,,2026,https://getridewise.com/blog/uber-fare-calculator-2026,"Atlanta minimum fare; binds on a 2-mile trip at $0.76/mi. PRICE TO RIDER not operating cost"
+Lyft (Atlanta),rideshare,fare_2mi_equivalent,6.44,5.30,7.00,2026,https://getridewise.com/blog/how-much-does-lyft-cost,"2 mi at $0.87/mi; Atlanta minimum fare $5.30. PRICE TO RIDER not operating cost"
+US average rideshare fare,rideshare,fare_avg_trip,23.66,21.58,26.00,2025-2026,https://getridewise.com/blog/rideshare-pricing-report-2026,"National average Uber/Lyft fare per ride; typical trip is far longer than 2 mi. PRICE TO RIDER"

@@ -1,0 +1,3 @@
+report_month,generated_date,service,agency,routes,vehicles,total_ridership,source_pdf
+2026-07-01,2026-08-03,Beltline Shuttle Service,Atlanta Beltline,ABI Short | ABI Long,"ABI-01, ABI-02, ABI-03, ABI-04",1306,ABI Ridership Report July 2026.pdf
+2026-06-01,2026-07-01,Beltline Shuttle Service,Atlanta Beltline,ABI Short | ABI Long,"ABI-01, ABI-02, ABI-03, ABI-04",1497,ABI Ridership Report June 2026.pdf
