@@ -10,7 +10,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-TITLE = "ATL Spoke Ridership — Executive Summary"
+TITLE = "ATL Spoke Ridership — Summary"
 
 subprocess.run(
     ["uv", "run", "jupyter", "nbconvert", "--to", "html",
