@@ -31,8 +31,6 @@ md(r"""
 **Atlanta Beltline autonomous shuttle pilot, operated by Beep.**
 What happened in June and July 2026, and what it cost.
 
-Code cells are hidden. The full working is in `analysis.ipynb`.
-
 - **July cost about $112 per rider in grant money.** That is roughly 7.6 times a MARTA bus ride
   and about 2.3 times Beep's own Cumberland Hopper pilot in Cobb County.
 - **That figure swings from $84 to $140 depending on how the grant was spent.** The pilot has not
