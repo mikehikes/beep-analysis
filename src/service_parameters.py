@@ -4,10 +4,14 @@ Every external input the analysis depends on lives here with its value, its
 source, and an honest confidence rating. Nothing derived from these numbers
 appears in the notebook without tracing back to this file.
 
-Cost basis, per the operator's direction. The full $1.75M grant is treated as
-operating expense. Vehicles are leased, so lease payments sit inside op-ex, and
-capital spend is limited to signage and other minor items. That makes
-$1.75M / 12 a real monthly operating cost rather than an upper bound.
+Cost basis. The full $3M project budget is treated as operating expense, not
+just the $1.75M state grant that makes up 58% of it. Vehicles are leased, so
+lease payments sit inside op-ex, and capital spend is limited to signage and
+other minor items. That makes $3M / 12 = $250,000 the monthly operating cost.
+
+The report also presents a grant-only basis ($1.75M / 12 = $145,833) alongside
+it, because the ~$1.25M non-grant share is never broken down publicly and may be
+partly in-kind. See total_project_cost_usd.
 
 Two unknowns remain. Spend may not be level across the pilot, and the number of
 vehicles actually in service is not reported. Both are carried as sensitivity
@@ -86,17 +90,42 @@ PARAMS: dict[str, Param] = {
         "design and no fare-based metric is meaningful."),
     "grant_total_usd": Param(
         1_750_000.0, "USD", "high", MASSTRANSIT,
-        "Georgia Transportation Efficiency Authority award."),
+        "Georgia Transportation Efficiency Authority award. This is the STATE "
+        "share only, roughly 58% of the total project cost -- see "
+        "total_project_cost_usd. Kept as its own parameter because it is the "
+        "figure most press coverage reports in isolation."),
+    "total_project_cost_usd": Param(
+        3_000_000.0, "USD", "medium", "AJC, BeepThroat, Civic Atlanta",
+        "The Beltline board approved a $3M total pilot budget in May 2025, "
+        "roughly a year before the June 2026 launch; the $1.75M GTEA grant "
+        "covers the state's share of that total. Corroborated three ways: AJC "
+        "reports the state covering 'more than half the costs' (1.75/3.00 = "
+        "58%, consistent); Civic Atlanta cites '$3 million' directly; "
+        "BeepThroat, an open-records project, cites a specific board document "
+        "(its DOC-015, 'Beep AV pilot approval, $3M, 5/2025') and attributes "
+        "the remaining ~$1.25M to 'BeltLine / in-kind'. "
+        "UNRESOLVED: what the $1.25M gap actually consists of -- no source "
+        "breaks it down. Given the ~13-month gap between the May 2025 board "
+        "approval and the June 2026 launch, it plausibly covers pre-launch "
+        "capital and integration cost (vehicle procurement, technology setup) "
+        "rather than 12-month operating spend, but this is inference, not a "
+        "confirmed source. We use the full $3M as the operating-cost basis "
+        "below on the more conservative assumption that it is NOT separable "
+        "from ongoing cost. See monthly_cost_usd."),
     "pilot_months": Param(
         12, "months", "high", BELTLINE, ""),
     "monthly_cost_usd": Param(
-        1_750_000.0 / 12, "USD/month", "medium", MASSTRANSIT,
-        "Even 1/12 split of the grant, treated as fully operating expense per "
-        "the operator's direction. Vehicles are leased so lease cost is op-ex, "
-        "and capital spend is limited to signage and similar minor items. This "
-        "is a cost estimate, not a ceiling. The open question is timing, since "
-        "pilot spend is often front-loaded. Sensitivity runs a level profile "
-        "against front-loaded and back-loaded variants at +/- 25%."),
+        3_000_000.0 / 12, "USD/month", "medium", "AJC, BeepThroat, Civic Atlanta",
+        "Even 1/12 split of the $3M total project cost (not just the $1.75M "
+        "GTEA grant -- see total_project_cost_usd for why), treated as fully "
+        "operating expense per the operator's direction. Vehicles are leased "
+        "so lease cost is op-ex, and capital spend is limited to signage and "
+        "similar minor items. This is a cost estimate, not a ceiling. Two open "
+        "questions: timing, since pilot spend is often front-loaded, and "
+        "whether the ~$1.25M non-GTEA share is really operating cost at all "
+        "rather than pre-launch capital -- see total_project_cost_usd. "
+        "Sensitivity runs a level profile against front-loaded and "
+        "back-loaded variants at +/- 25%."),
     "capex_treatment": Param(
         "leased fleet, minor capex only", "n/a", "high",
         "operator direction",

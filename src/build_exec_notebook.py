@@ -1,5 +1,10 @@
 """Build executive_summary.ipynb.
 
+WARNING: executive_summary.ipynb has since been edited by hand (section headings,
+added sections, prose). That notebook is the source of truth, not this script.
+Running this will regenerate the notebook from scratch and DISCARD those manual
+edits. Figures here are kept in sync manually; verify before relying on it.
+
 A short, plain-language notebook for a non-technical reader. Every code cell is
 marked source_hidden, so it opens as a document with charts and tables rather
 than as code. The detailed working stays in analysis.ipynb.
@@ -31,10 +36,11 @@ md(r"""
 **Atlanta Beltline autonomous shuttle pilot, operated by Beep.**
 What happened in June and July 2026, and what it cost.
 
-- **July cost about $112 per rider in grant money.** That is roughly 7.6 times a MARTA bus ride
-  and about 2.3 times Beep's own Cumberland Hopper pilot in Cobb County.
-- **That figure swings from $84 to $140 depending on how the grant was spent.** The pilot has not
-  published whether spending was even across the year, front-loaded, or back-loaded.
+- **July cost about $191 per rider, using the pilot's full $3 million budget rather than just the
+  $1.75 million state grant.** That is roughly 13 times a MARTA bus ride and about 4 times Beep's
+  own Cumberland Hopper pilot in Cobb County.
+- **That figure swings from $144 to $239 depending on how the money was spent.** Neither the
+  timing of spending nor the makeup of the non-grant $1.25 million has been published.
 - **Ridership fell 12.8 percent in July, but it tracks the World Cup ending, not a cut in
   service.** Demand away from the tournament grew 59 percent over the same two months.
 """)
@@ -116,7 +122,7 @@ co(r"""
 cards = [("Riders in June", "1,497", "30 days of service", INK),
          ("Riders in July", "1,306", "Down 12.8 percent", ORANGE),
          ("Change", "-191", "riders", ORANGE),
-         ("Cost per rider, July", "$111.66", "in grant money", INK)]
+         ("Cost per rider, July", "$191.42", "of the $3M pilot budget", INK)]
 cells = "".join(
     f'<div style="flex:1;min-width:150px;border:1px solid {RULE};padding:14px 16px 16px">'
     f'<div style="font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;'
@@ -174,13 +180,23 @@ plt.tight_layout(); plt.show()
 """)
 
 md(r"""
-## What it costs
+## The Beep bus service is extraordinarily expensive compared to other transportation modes
 
-The pilot has a $1.75 million grant covering 12 months. We treat all of it as running cost,
-because the vehicles are leased and the only capital spending is on signs and similar small
-items. That works out at $145,833 a month.
+The pilot has a $3 million total budget. A $1.75 million grant from the Georgia Transportation
+Efficiency Authority covers about 58 percent of it; the Atlanta Beltline covers the rest. We
+treat the full $3 million as running cost, because the vehicles are leased and the only capital
+spending disclosed is on signs and similar small items. That works out at $250,000 a month.
 
-Two things we do not know. First, whether the money is spent evenly across the year. June and
+**A caveat on that $3 million.** The Beltline's roughly $1.25 million share is never broken down
+publicly, and at least one account describes it as partly in-kind rather than cash, meaning staff
+time, existing infrastructure or similar contributions rather than a check written. The board
+also approved the budget roughly a year before service launched, so some of it may be pre-launch
+setup rather than monthly operating cost. We still use the full $3 million, because that is the
+project's understood total in news reporting, including the AJC, which notes the state covered
+more than half the bill. Strip the in-kind portion out and cost per rider falls back toward the
+$112 figure this report used previously.
+
+Two other things we do not know. First, whether the money is spent evenly across the year. June and
 July are months one to three of the pilot, so if spending is front-loaded these months cost
 more than average, not less. Second, how many of the four shuttles actually run at once. We
 assume three, based on a 34-minute loop and a shuttle every 12 to 15 minutes.
@@ -192,10 +208,10 @@ table(["Measure", "June 2026", "July 2026"],
        ["Hours the service was open", "330", "328"],
        ["Shuttle hours provided (hours times vehicles)", "990", "984"],
        ["Riders per shuttle hour", "1.51", "1.33"],
-       ["Cost per rider", "$97.42", "$111.66"],
-       ["Cost per hour the service was open", "$441.92", "$444.61"],
-       ["Cost per shuttle hour", "$147.31", "$148.20"],
-       ["Cost per passenger mile", "$139.17", "$159.52"]],
+       ["Cost per rider", "$167.00", "$191.42"],
+       ["Cost per hour the service was open", "$757.58", "$762.20"],
+       ["Cost per shuttle hour", "$252.53", "$254.07"],
+       ["Cost per passenger mile", "$238.57", "$273.46"]],
       note="Both months bought almost the same service, so July carried fewer riders for the "
            "same money.")
 """)
@@ -203,13 +219,13 @@ table(["Measure", "June 2026", "July 2026"],
 co(r"""
 table(["If the money is spent", "Shuttles", "Cost per rider", "Cost per hour open",
        "Cost per shuttle hour"],
-      [["Evenly across the year (base case)", "3", "$111.66", "$444.61", "$148.20"],
-       ["Evenly across the year (base case)", "4", "$111.66", "$444.61", "$111.15"],
-       ["More heavily early, plus 25 percent", "3", "$139.58", "$555.77", "$185.26"],
-       ["More heavily early, plus 25 percent", "4", "$139.58", "$555.77", "$138.94"],
-       ["More heavily later, minus 25 percent", "3", "$83.75", "$333.46", "$111.15"],
-       ["More heavily later, minus 25 percent", "4", "$83.75", "$333.46", "$83.37"]],
-      note="Cost per rider lands between $84 and $140 depending on when the money was spent. "
+      [["Evenly across the year (base case)", "3", "$191.42", "$762.20", "$254.07"],
+       ["Evenly across the year (base case)", "4", "$191.42", "$762.20", "$190.55"],
+       ["More heavily early, plus 25 percent", "3", "$239.28", "$952.74", "$317.58"],
+       ["More heavily early, plus 25 percent", "4", "$239.28", "$952.74", "$238.19"],
+       ["More heavily later, minus 25 percent", "3", "$143.57", "$571.65", "$190.55"],
+       ["More heavily later, minus 25 percent", "4", "$143.57", "$571.65", "$142.91"]],
+      note="Cost per rider lands between $144 and $239 depending on when the money was spent. "
            "The number of shuttles running only changes the cost per shuttle hour.")
 """)
 
@@ -239,7 +255,7 @@ md(r"""
 """)
 
 co(r"""
-comps = [("ATL Spoke", 111.66, "July 2026", RED),
+comps = [("ATL Spoke", 191.42, "July 2026", RED),
          ("Cumberland Hopper (Beep, Cobb County)", 48.18, "2023 to 2024", AQUA),
          ("Boston paratransit", 46.62, "Published figures", BLUE),
          ("MARTA Streetcar", 41.35, "FY2025 year to date", BLUE),
@@ -258,7 +274,7 @@ for i, c in enumerate(comps):
                 va="center", fontsize=9, color=INK)
 ax.set_yticks(range(len(comps)))
 ax.set_yticklabels([f"{c[0]}\n{c[2]}" for c in comps], fontsize=8.5)
-ax.set_xlim(0, 132)
+ax.set_xlim(0, 225)
 ax.grid(axis="y", visible=False); ax.grid(axis="x", visible=True)
 frame(ax, "Cost per rider", "What it costs to provide one ride")
 plt.tight_layout(); plt.show()
@@ -273,7 +289,8 @@ on board, carrying eight passengers at 10 to 15 mph. Like ATL Spoke it was built
 in its case Atlanta Braves game nights rather than World Cup matches.
 
 It carried more than 11,000 riders for about $530,000, which is roughly $48 a ride. ATL Spoke
-costs about 2.3 times that.
+now costed against its full $3 million budget rather than just the state grant, costs about
+4.0 times that.
 
 The Hopper ran less service, mostly on event evenings, while ATL Spoke runs seven days a week
 for 10 to 16 hours. Per ride the Hopper is cheaper. Per hour of service available it may not
@@ -285,7 +302,7 @@ md(r"""
 """)
 
 co(r"""
-rs = [("ATL Spoke, one rider", 111.66, RED),
+rs = [("ATL Spoke, one rider", 191.42, RED),
       ("US average taxi app fare", 23.66, BLUE),
       ("Uber in Atlanta, two-mile trip", 9.03, BLUE),
       ("Lyft in Atlanta, two-mile trip", 6.44, BLUE)][::-1]
@@ -295,7 +312,7 @@ for i, r in enumerate(rs):
     ax.annotate(f"${r[1]:,.2f}", (r[1], i), xytext=(6, 0), textcoords="offset points",
                 va="center", fontsize=9, color=INK)
 ax.set_yticks(range(len(rs))); ax.set_yticklabels([r[0] for r in rs], fontsize=8.5)
-ax.set_xlim(0, 132)
+ax.set_xlim(0, 225)
 ax.grid(axis="y", visible=False); ax.grid(axis="x", visible=True)
 frame(ax, "Cost per rider against taxi app fares", "Atlanta rates, 2026")
 plt.tight_layout(); plt.show()
@@ -424,15 +441,19 @@ An earlier version of this report claimed weekdays were busier. That does not ho
 the eight match days fell on a Wednesday, and the one day with no reading is a Sunday. Correct
 for both and weekends run very slightly above weekdays. With 62 days of data this is unresolved.
 
-**7. Each July ride cost about $112 in grant money.**
-That is roughly 7.6 times what a MARTA bus ride costs to provide, and 14 times what Cobb County
-spends per passenger mile on its on-demand service.
+**7. Each July ride cost \$191 against the full \$3 million budget, or \$112 against the state
+grant alone.**
+Per rider, that is roughly 13 times a MARTA bus ride on the full budget and 7.6 times on the
+grant alone. Per passenger mile it is 25 times and 14 times what Cobb County spends on its
+on-demand service. The gap between the two bases is the Atlanta Beltline's roughly
+\$1.25 million share, which has never been broken down publicly.
 
 **8. Beep's earlier Cobb County shuttle cost about $48 a ride.**
 The Cumberland Hopper was the same operator running a similar pilot. It ran less service, so
 the two are not directly comparable on cost per ride alone.
 
-**9. The main open question is when the grant money was actually spent.**
+**9. The main open question is when the pilot's money was actually spent, and what the
+non-grant share consists of.**
 If more was spent early in the pilot, June and July cost more than the average month, not less.
 Monthly spend figures from Beep or ABI would settle it.
 """)

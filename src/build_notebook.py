@@ -12,8 +12,8 @@ md(r"""
 
 **The service.** ATL Spoke is the Atlanta Beltline's autonomous shuttle pilot, run by **Beep**.
 Four electric ADA-accessible shuttles work a 2-mile, four-stop loop from West End MARTA to the
-Beltline Southwest Trail at Lee+White. No fare. A **\$1.75M** Georgia Transportation Efficiency
-Authority grant pays for a 12-month pilot.
+Beltline Southwest Trail at Lee+White. No fare. A **\$3M** total pilot budget, of which
+**\$1.75M** is a Georgia Transportation Efficiency Authority grant, pays for a 12-month pilot.
 
 **The data.** Two chart-only PDF ridership reports, June and July 2026. Neither contains a table.
 Every number here was recovered from bar-label coordinates and checked against four gates. See
@@ -479,10 +479,17 @@ md(r"""
 The PDFs carry no cost and no service-hour data, so every figure below rests on the assumption
 register in `src/service_parameters.py`.
 
-**The cost basis is now fixed.** The full \$1.75M grant is treated as operating expense. Vehicles
-are leased, so lease payments sit inside op-ex, and capital spend is limited to signage and other
-small items. That makes **\$145,833 a month a cost estimate rather than a ceiling**, which is a
-change from how this was framed before.
+**The cost basis is now the full \$3M project total, not just the \$1.75M state grant.** The
+Beltline board approved a \$3M pilot budget in May 2025; the \$1.75M GTEA grant is the state's
+share of that, about 58%, matching AJC's reporting that the state covers "more than half the
+costs." The remaining ~\$1.25M is attributed to "BeltLine / in-kind" by the one source that
+breaks it down, with no further detail on what it consists of. Given the roughly 13-month gap
+between board approval and launch, it plausibly covers pre-launch capital and integration cost
+rather than 12-month operating spend, but no source confirms that split. We use the full \$3M as
+the operating-cost basis on the more conservative assumption that it is not separable from
+ongoing cost. All vehicles are leased, so lease payments sit inside op-ex, and capital spend
+beyond the pilot's own budget is limited to signage and other small items. That makes
+**\$250,000 a month a cost estimate rather than a ceiling**.
 
 Two things are still unknown and are carried as ranges instead.
 
@@ -511,7 +518,7 @@ out = met[["boardings", "service_hours", "vrh", "passenger_miles", "boardings_pe
            "cost_per_passenger_mile"]]
 display(out.T)
 
-print(f"Monthly operating cost ${COST:,.0f}  (= $1.75M / 12, all op-ex, leased fleet)")
+print(f"Monthly operating cost ${COST:,.0f}  (= $3M / 12, all op-ex, leased fleet)")
 print("cost_per_operating_hour uses wall-clock hours the service is open.")
 print("cost_per_revenue_hour multiplies those hours by vehicles in service "
       f"({sp.PARAMS['vehicles_in_service'].value}).")
@@ -616,11 +623,11 @@ rather than commute services.
 | Period | Jul 2023 to Dec 2024 | Jun 2026, ongoing |
 | Fare | free | free |
 | Demand anchor | Braves home games | World Cup match days |
-| Disclosed funding | \$400K phase 1 plus ~\$130K phase 2 | \$1.75M over 12 months |
+| Disclosed funding | \$400K phase 1 plus ~\$130K phase 2 | \$3M over 12 months (incl. \$1.75M GTEA grant) |
 | Riders | 11,000+ total | 1,306 in July alone |
-| **Cost per boarding** | **~\$48** | **\$111.66** |
+| **Cost per boarding** | **~\$48** | **\$191.42** |
 
-So ATL Spoke costs about 2.3 times the Hopper per rider.
+So ATL Spoke costs about 4.0 times the Hopper per rider.
 
 Two things qualify that. The Hopper's cost basis is the CID's disclosed investment, and its rider
 total spans two phases whose month counts are reported inconsistently across sources.
@@ -687,7 +694,7 @@ jul_cpt = met.cost_per_trip.iloc[1]
 
 fig, ax = plt.subplots(figsize=(8.0, 2.9))
 rows = [("ATL Spoke, level spend", jul_cpt, RED),
-        ("ATL Spoke, back-loaded spend", 83.75, ORANGE),
+        ("ATL Spoke, back-loaded spend", 143.57, ORANGE),
         ("US average rideshare fare", 23.66, BLUE),
         ("Uber, Atlanta 2-mile equivalent", uber_2mi, BLUE),
         ("Lyft, Atlanta 2-mile equivalent", lyft_2mi, BLUE)]
@@ -722,7 +729,7 @@ md(r"""
    -287.9 boardings, which fell because Atlanta hosted three matches in July against five in
    June. This is attribution from a 62-day series, not a causal estimate. See the limits below.
 
-2. **Demand outside the tournament rose 46%.** The local market grew between June and July even
+2. **Demand outside the tournament rose 59%.** The local market grew between June and July even
    as the headline number fell, which is the opposite of what the monthly total suggests.
 
 3. **Productivity fell further than ridership did.** Longer match-day hours held revenue hours
@@ -750,11 +757,11 @@ md(r"""
    run slightly *above* weekdays. With 8 or 9 observations per weekday, one missing day moves the
    answer, so treat day-of-week as unresolved.
 
-7. **July cost \$111.66 per boarding.** With the grant treated as all operating expense and the
-   fleet leased, that is an estimate rather than a ceiling. It is 7.6 times MARTA Bus at its May
-   2026 rate and 14 times CobbLinc Go per passenger mile.
+7. **July cost \$191.42 per boarding.** With the full \$3M project cost treated as operating
+   expense and the fleet leased, that is an estimate rather than a ceiling. It is 13.0 times
+   MARTA Bus at its May 2026 rate and 25 times CobbLinc Go per passenger mile.
 
-8. **ATL Spoke costs about 2.3 times the Cumberland Hopper per boarding.** The Hopper was the
+8. **ATL Spoke costs about 4.0 times the Cumberland Hopper per boarding.** The Hopper was the
    same operator running the same kind of pilot. It ran less service, so the gap per hour of
    service available is probably smaller. Its revenue hours were never published.
 
