@@ -120,7 +120,22 @@ PARAMS: dict[str, Param] = {
 
 SOFT_LAUNCH = date(2026, 5, 31)      # 28 boardings; matches the May bar exactly
 PUBLIC_LAUNCH = date(2026, 6, 5)
-PHASE2_START = date(2026, 8, 19)     # AUC extension -- after the data window
+
+# Phase 2 (AUC extension): confirmed by multiple same-day reports, timed to the
+# start of the AUC fall semester. Fleet, hours (noon-10pm) and fare unchanged.
+PHASE2_START = date(2026, 8, 19)
+PHASE2_STOPS = (
+    "Clark Atlanta University", "Morehouse College",
+    "Morehouse School of Medicine", "Spelman College",
+)
+PHASE2_SOURCE = ("https://roughdraftatlanta.com/2026/08/19/atl-spoke-expands-auc-route/",
+                 "https://www.atlantanewsfirst.com/2026/08/19/"
+                 "citys-first-autonomous-shuttle-adds-atlanta-university-center-stop/",
+                 "https://atlanta.urbanize.city/post/"
+                 "atl-spoke-beltline-expands-autonomous-shuttle-system-starting-today")
+# No source publishes the added route mileage for the AUC leg as of this writing,
+# so route_length_mi below still reflects Phase 1 only and is NOT extended to
+# cover Phase 2. Do not use it to compute post-August cost-per-mile figures.
 
 WORLD_CUP_START = date(2026, 6, 11)
 WORLD_CUP_END = date(2026, 7, 19)

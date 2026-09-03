@@ -32,6 +32,13 @@ md(r"""
 What happened in June and July 2026, and what it cost.
 
 Code cells are hidden. The full working is in `analysis.ipynb`.
+
+- **July cost about $112 per rider in grant money.** That is roughly 7.6 times a MARTA bus ride
+  and about 2.3 times Beep's own Cumberland Hopper pilot in Cobb County.
+- **That figure swings from $84 to $140 depending on how the grant was spent.** The pilot has not
+  published whether spending was even across the year, front-loaded, or back-loaded.
+- **Ridership fell 12.8 percent in July, but it tracks the World Cup ending, not a cut in
+  service.** Demand away from the tournament grew 59 percent over the same two months.
 """)
 
 co(r"""
@@ -128,8 +135,9 @@ display(HTML(f'<div class="mathjax_ignore tex2jax_ignore" '
 md(r"""
 ## What happened
 
-ATL Spoke carried 1,306 riders in July, down from 1,497 in June. The service did not get
-worse. It ran almost exactly the same number of hours in both months.
+ATL Spoke carried 1,306 riders in July, down from 1,497 in June. The amount of service on
+offer did not shrink. The shuttle ran almost the same number of hours in both months, so this
+is not a story about the operator cutting back.
 
 What changed was the World Cup. Atlanta hosted five matches at Mercedes-Benz Stadium in June
 and three in July, and ridership followed the tournament closely. Match days averaged 78 riders
@@ -165,6 +173,140 @@ ax.legend(handles=[Patch(color=BLUE, label="Ordinary day, 10 hours of service"),
 frame(ax, "Riders per day", "31 May to 31 July 2026", "Riders")
 ax.grid(axis="x", visible=False)
 plt.tight_layout(); plt.show()
+""")
+
+md(r"""
+## What it costs
+
+The pilot has a $1.75 million grant covering 12 months. We treat all of it as running cost,
+because the vehicles are leased and the only capital spending is on signs and similar small
+items. That works out at $145,833 a month.
+
+Two things we do not know. First, whether the money is spent evenly across the year. June and
+July are months one to three of the pilot, so if spending is front-loaded these months cost
+more than average, not less. Second, how many of the four shuttles actually run at once. We
+assume three, based on a 34-minute loop and a shuttle every 12 to 15 minutes.
+""")
+
+co(r"""
+table(["Measure", "June 2026", "July 2026"],
+      [["Riders", "1,497", "1,306"],
+       ["Hours the service was open", "330", "328"],
+       ["Shuttle hours provided (hours times vehicles)", "990", "984"],
+       ["Riders per shuttle hour", "1.51", "1.33"],
+       ["Cost per rider", "$97.42", "$111.66"],
+       ["Cost per hour the service was open", "$441.92", "$444.61"],
+       ["Cost per shuttle hour", "$147.31", "$148.20"],
+       ["Cost per passenger mile", "$139.17", "$159.52"]],
+      note="Both months bought almost the same service, so July carried fewer riders for the "
+           "same money.")
+""")
+
+co(r"""
+table(["If the money is spent", "Shuttles", "Cost per rider", "Cost per hour open",
+       "Cost per shuttle hour"],
+      [["Evenly across the year (base case)", "3", "$111.66", "$444.61", "$148.20"],
+       ["Evenly across the year (base case)", "4", "$111.66", "$444.61", "$111.15"],
+       ["More heavily early, plus 25 percent", "3", "$139.58", "$555.77", "$185.26"],
+       ["More heavily early, plus 25 percent", "4", "$139.58", "$555.77", "$138.94"],
+       ["More heavily later, minus 25 percent", "3", "$83.75", "$333.46", "$111.15"],
+       ["More heavily later, minus 25 percent", "4", "$83.75", "$333.46", "$83.37"]],
+      note="Cost per rider lands between $84 and $140 depending on when the money was spent. "
+           "The number of shuttles running only changes the cost per shuttle hour.")
+""")
+
+md(r"""
+### What changes with the August extension
+
+None of the numbers above cover August. On 19 August 2026, timed to the start of the fall
+semester, ATL Spoke added a stop at the Atlanta University Center, serving Clark Atlanta
+University, Morehouse College, Morehouse School of Medicine and Spelman College by way of a new
+leg north of I-20. The fleet, the noon to 10pm hours and the free fare did not change; Beltline
+officials describe it as a route extension, not a new service.
+
+This should push cost per route-mile down almost by arithmetic. Our cost model holds monthly
+cost flat regardless of route length, so a longer route divides the same dollar figure across
+more miles. Cost per passenger mile should move the same way if the new stops lengthen the
+average trip, or if they draw more riders, since both put more passenger-miles under the same
+monthly cost. Neither is guaranteed. Ridership could fail to grow, or growth at AUC could be
+offset by a drop elsewhere on the route.
+
+No published source gives the added route mileage, so we cannot size either effect yet. We plan
+to add August data once ABI publishes it, which will let this section move from expectation to
+measurement.
+""")
+
+md(r"""
+## How that compares
+""")
+
+co(r"""
+comps = [("ATL Spoke", 111.66, "July 2026", RED),
+         ("Cumberland Hopper (Beep, Cobb County)", 48.18, "2023 to 2024", AQUA),
+         ("Boston paratransit", 46.62, "Published figures", BLUE),
+         ("MARTA Streetcar", 41.35, "FY2025 year to date", BLUE),
+         ("Springfield MA paratransit", 27.44, "Published figures", BLUE),
+         ("MARTA Streetcar", 20.12, "May 2026", BLUE),
+         ("MARTA Bus", 14.77, "May 2026", BLUE),
+         ("MARTA Bus", 9.83, "FY2025 year to date", BLUE),
+         ("MARTA Rail", 7.64, "May 2026", BLUE),
+         ("Utah autonomous shuttle pilot", 2.31, "2019", BLUE)]
+comps = sorted(comps, key=lambda r: r[1])
+
+fig, ax = plt.subplots(figsize=(9.5, 4.2))
+ax.barh(range(len(comps)), [c[1] for c in comps], color=[c[3] for c in comps], height=0.62)
+for i, c in enumerate(comps):
+    ax.annotate(f"${c[1]:,.2f}", (c[1], i), xytext=(6, 0), textcoords="offset points",
+                va="center", fontsize=9, color=INK)
+ax.set_yticks(range(len(comps)))
+ax.set_yticklabels([f"{c[0]}\n{c[2]}" for c in comps], fontsize=8.5)
+ax.set_xlim(0, 132)
+ax.grid(axis="y", visible=False); ax.grid(axis="x", visible=True)
+frame(ax, "Cost per rider", "What it costs to provide one ride")
+plt.tight_layout(); plt.show()
+""")
+
+md(r"""
+### Beep's earlier Cobb County shuttle
+
+Beep ran the Cumberland Hopper for the Cumberland CID in Cobb County between July 2023 and
+December 2024. Two routes linked Cobb Galleria to The Battery. Free to ride, with an attendant
+on board, carrying eight passengers at 10 to 15 mph. Like ATL Spoke it was built around events,
+in its case Atlanta Braves game nights rather than World Cup matches.
+
+It carried more than 11,000 riders for about $530,000, which is roughly $48 a ride. ATL Spoke
+costs about 2.3 times that.
+
+The Hopper ran less service, mostly on event evenings, while ATL Spoke runs seven days a week
+for 10 to 16 hours. Per ride the Hopper is cheaper. Per hour of service available it may not
+be. Its service hours were never published.
+""")
+
+md(r"""
+### What a taxi app would charge for the same trip
+""")
+
+co(r"""
+rs = [("ATL Spoke, one rider", 111.66, RED),
+      ("US average taxi app fare", 23.66, BLUE),
+      ("Uber in Atlanta, two-mile trip", 9.03, BLUE),
+      ("Lyft in Atlanta, two-mile trip", 6.44, BLUE)][::-1]
+fig, ax = plt.subplots(figsize=(9.5, 2.4))
+ax.barh(range(len(rs)), [r[1] for r in rs], color=[r[2] for r in rs], height=0.6)
+for i, r in enumerate(rs):
+    ax.annotate(f"${r[1]:,.2f}", (r[1], i), xytext=(6, 0), textcoords="offset points",
+                va="center", fontsize=9, color=INK)
+ax.set_yticks(range(len(rs))); ax.set_yticklabels([r[0] for r in rs], fontsize=8.5)
+ax.set_xlim(0, 132)
+ax.grid(axis="y", visible=False); ax.grid(axis="x", visible=True)
+frame(ax, "Cost per rider against taxi app fares", "Atlanta rates, 2026")
+plt.tight_layout(); plt.show()
+""")
+
+md(r"""
+The ATL Spoke figure is what the public pays to run the service. A taxi app fare is what the
+passenger pays, and excludes the driver's own costs. It also excludes guaranteed wheelchair
+access, free travel, and a fixed route. The two are not like-for-like prices.
 """)
 
 md(r"""
@@ -251,122 +393,9 @@ week as unresolved.
 """)
 
 md(r"""
-## What it costs
-
-The pilot has a \$1.75 million grant covering 12 months. We treat all of it as running cost,
-because the vehicles are leased and the only capital spending is on signs and similar small
-items. That works out at \$145,833 a month.
-
-Two things we do not know. First, whether the money is spent evenly across the year. June and
-July are months one to three of the pilot, so if spending is front-loaded these months cost
-more than average, not less. Second, how many of the four shuttles actually run at once. We
-assume three, based on a 34-minute loop and a shuttle every 12 to 15 minutes.
-""")
-
-co(r"""
-table(["Measure", "June 2026", "July 2026"],
-      [["Riders", "1,497", "1,306"],
-       ["Hours the service was open", "330", "328"],
-       ["Shuttle hours provided (hours times vehicles)", "990", "984"],
-       ["Riders per shuttle hour", "1.51", "1.33"],
-       ["Cost per rider", "$97.42", "$111.66"],
-       ["Cost per hour the service was open", "$441.92", "$444.61"],
-       ["Cost per shuttle hour", "$147.31", "$148.20"],
-       ["Cost per passenger mile", "$139.17", "$159.52"]],
-      note="Both months bought almost the same service, so July carried fewer riders for the "
-           "same money.")
-""")
-
-co(r"""
-table(["If the money is spent", "Shuttles", "Cost per rider", "Cost per hour open",
-       "Cost per shuttle hour"],
-      [["Evenly across the year (base case)", "3", "$111.66", "$444.61", "$148.20"],
-       ["Evenly across the year (base case)", "4", "$111.66", "$444.61", "$111.15"],
-       ["More heavily early, plus 25 percent", "3", "$139.58", "$555.77", "$185.26"],
-       ["More heavily early, plus 25 percent", "4", "$139.58", "$555.77", "$138.94"],
-       ["More heavily later, minus 25 percent", "3", "$83.75", "$333.46", "$111.15"],
-       ["More heavily later, minus 25 percent", "4", "$83.75", "$333.46", "$83.37"]],
-      note="Cost per rider lands between $84 and $140 depending on when the money was spent. "
-           "The number of shuttles running only changes the cost per shuttle hour.")
-""")
-
-md(r"""
-## How that compares
-""")
-
-co(r"""
-comps = [("ATL Spoke", 111.66, "July 2026", RED),
-         ("Cumberland Hopper (Beep, Cobb County)", 48.18, "2023 to 2024", AQUA),
-         ("Boston paratransit", 46.62, "Published figures", BLUE),
-         ("MARTA Streetcar", 41.35, "FY2025 year to date", BLUE),
-         ("Springfield MA paratransit", 27.44, "Published figures", BLUE),
-         ("MARTA Streetcar", 20.12, "May 2026", BLUE),
-         ("MARTA Bus", 14.77, "May 2026", BLUE),
-         ("MARTA Bus", 9.83, "FY2025 year to date", BLUE),
-         ("MARTA Rail", 7.64, "May 2026", BLUE),
-         ("Utah autonomous shuttle pilot", 2.31, "2019", BLUE)]
-comps = sorted(comps, key=lambda r: r[1])
-
-fig, ax = plt.subplots(figsize=(9.5, 4.2))
-ax.barh(range(len(comps)), [c[1] for c in comps], color=[c[3] for c in comps], height=0.62)
-for i, c in enumerate(comps):
-    ax.annotate(f"${c[1]:,.2f}", (c[1], i), xytext=(6, 0), textcoords="offset points",
-                va="center", fontsize=9, color=INK)
-ax.set_yticks(range(len(comps)))
-ax.set_yticklabels([f"{c[0]}\n{c[2]}" for c in comps], fontsize=8.5)
-ax.set_xlim(0, 132)
-ax.grid(axis="y", visible=False); ax.grid(axis="x", visible=True)
-frame(ax, "Cost per rider", "What it costs to provide one ride")
-plt.tight_layout(); plt.show()
-""")
-
-md(r"""
-### Beep's earlier Cobb County shuttle
-
-Beep ran the Cumberland Hopper for the Cumberland CID in Cobb County between July 2023 and
-December 2024. Two routes linked Cobb Galleria to The Battery. Free to ride, with an attendant
-on board, carrying eight passengers at 10 to 15 mph. Like ATL Spoke it was built around events,
-in its case Atlanta Braves game nights rather than World Cup matches.
-
-It carried more than 11,000 riders for about \$530,000, which is roughly \$48 a ride. ATL Spoke
-costs about 2.3 times that.
-
-The Hopper ran less service, mostly on event evenings, while ATL Spoke runs seven days a week
-for 10 to 16 hours. Per ride the Hopper is cheaper. Per hour of service available it may not
-be. Its service hours were never published.
-""")
-
-md(r"""
-### What a taxi app would charge for the same trip
-""")
-
-co(r"""
-rs = [("ATL Spoke, one rider", 111.66, RED),
-      ("US average taxi app fare", 23.66, BLUE),
-      ("Uber in Atlanta, two-mile trip", 9.03, BLUE),
-      ("Lyft in Atlanta, two-mile trip", 6.44, BLUE)][::-1]
-fig, ax = plt.subplots(figsize=(9.5, 2.4))
-ax.barh(range(len(rs)), [r[1] for r in rs], color=[r[2] for r in rs], height=0.6)
-for i, r in enumerate(rs):
-    ax.annotate(f"${r[1]:,.2f}", (r[1], i), xytext=(6, 0), textcoords="offset points",
-                va="center", fontsize=9, color=INK)
-ax.set_yticks(range(len(rs))); ax.set_yticklabels([r[0] for r in rs], fontsize=8.5)
-ax.set_xlim(0, 132)
-ax.grid(axis="y", visible=False); ax.grid(axis="x", visible=True)
-frame(ax, "Cost per rider against taxi app fares", "Atlanta rates, 2026")
-plt.tight_layout(); plt.show()
-""")
-
-md(r"""
-The ATL Spoke figure is what the public pays to run the service. A taxi app fare is what the
-passenger pays, and excludes the driver's own costs. It also excludes guaranteed wheelchair
-access, free travel, and a fixed route. The two are not like-for-like prices.
-""")
-
-md(r"""
 ## Findings
 
-**1. The drop tracks the World Cup ending. There is no sign of the service getting worse.**
+**1. The drop tracks the World Cup ending, not a cut in service.**
 Ridership followed the tournament. A low base before it started, a jump from 11 June, then a
 fall as it wound down. Atlanta hosted five matches in June but only three in July. This is a
 pattern in 62 days of data, not a proven cause. See the limits at the end.
@@ -397,11 +426,11 @@ An earlier version of this report claimed weekdays were busier. That does not ho
 the eight match days fell on a Wednesday, and the one day with no reading is a Sunday. Correct
 for both and weekends run very slightly above weekdays. With 62 days of data this is unresolved.
 
-**7. Each July ride cost about \$112 in grant money.**
+**7. Each July ride cost about $112 in grant money.**
 That is roughly 7.6 times what a MARTA bus ride costs to provide, and 14 times what Cobb County
 spends per passenger mile on its on-demand service.
 
-**8. Beep's earlier Cobb County shuttle cost about \$48 a ride.**
+**8. Beep's earlier Cobb County shuttle cost about $48 a ride.**
 The Cumberland Hopper was the same operator running a similar pilot. It ran less service, so
 the two are not directly comparable on cost per ride alone.
 
@@ -438,10 +467,10 @@ a single rider between days of 23 and 20.
 ## Where this comes from
 
 Ridership comes from two chart-only PDF reports, `ABI Ridership Report June 2026.pdf` and
-`ABI Ridership Report July 2026.pdf`. Neither contains a table, so every number was rebuilt from
-the position of the chart points, then checked with sixteen consistency checks, all of which
-pass. Those checks confirm the totals add up. They do not prove that every value sits on the
-right date. `analysis.ipynb` has the detail.
+`ABI Ridership Report July 2026.pdf`. Neither contains a table. We rebuilt every number from the
+position of the chart points, then ran sixteen consistency checks. All sixteen pass. They
+confirm the totals add up; they do not prove every value sits on the right date. `analysis.ipynb`
+has the detail.
 
 Service facts, funding and hours come from
 [Atlanta Beltline](https://beltline.org/atl-spoke/) and the
